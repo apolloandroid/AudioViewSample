@@ -1,2 +1,2 @@
-rootProject.name = "MicrophoneCheckViewSample"
+rootProject.name = "AudioViewSample"
 include ':app'

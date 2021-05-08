@@ -26,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="8dp"
             android:layout_marginBottom="32dp"
-            app:chunk_count="55"
             app:layout_constraintBottom_toTopOf="@+id/button_turn_microphone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
