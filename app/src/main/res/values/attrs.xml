@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AudioView">
+        <attr name="back_chunk_color" format="color" />
+        <attr name="front_chunk_color" format="color" />
+        <attr name="chunk_count" format="integer"/>
+        <attr name="chunk_form" format="string"/>
+        <attr name="chunk_space" format="dimension"/>
+        <attr name="chunk_height" format="dimension"/>
+        <attr name="chunk_width" format="dimension"/>
+    </declare-styleable>
+</resources>
