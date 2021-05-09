@@ -6,23 +6,29 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import com.example.microphonevolumeviewsample.R
 
+/**
+ * This class is designed to render sound on the screen.
+ * For example, you can use it to show the operation of a microphone while checking it
+ * or other audio display tasks.
+ */
 class AudioView : View {
     /**
-     * Default values, that initialize the view if no attributes have been defined.
+     * Default values, that initialize view params if no attributes have been defined.
      */
     private val DEFAULT_CHUNK_COUNT = 9
     private val DEFAULT_BACK_CHUNK_COLOR = Color.WHITE
     private val DEFAULT_FRONT_CHUNK_COLOR = Color.RED
     private val DEFAULT_CHUNK_FORM = ChunkForm.CIRCLE
-    private val DEFAULT_CHUNK_SPACE = 0f
+    private val DEFAULT_SPACE_BETWEEN_CHUNKS = 0f
     private val DEFAULT_CHUNK_WIDTH = 0f
     private val DEFAULT_CHUNK_HEIGHT = 0f
     private val DEFAULT_CIRCLE_CHUNK_RADIUS = 8f
 
     /**
-     * Values, that initialize back chunks.
+     * Values, that initialize back chunks params.
      */
     private var backChunkCount = DEFAULT_CHUNK_COUNT
     private var backChunkColor = DEFAULT_BACK_CHUNK_COLOR
@@ -33,7 +39,7 @@ class AudioView : View {
     private val backChunkPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = backChunkColor }
 
     /**
-     * Values, that initialize front chunks.
+     * Values, that initialize front chunks params.
      */
     private var frontChunkCount = 0
         set(value) {
@@ -47,13 +53,14 @@ class AudioView : View {
     private val frontChunkPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = frontChunkColor }
 
     /**
-     * Common values.
+     * Common values for back and front chunks.
+     * @see MAX_AUDIO_VOLUME is selected manually and seems to be the most optimal.
      */
     private val MAX_AUDIO_VOLUME = 11390f
-    private val circleChunkRadius = DEFAULT_CIRCLE_CHUNK_RADIUS
+    private var circleChunkRadius = DEFAULT_CIRCLE_CHUNK_RADIUS
     private var chunkForm = DEFAULT_CHUNK_FORM
-    private val perChunk = MAX_AUDIO_VOLUME / backChunkCount
-    private var chunkSpace = DEFAULT_CHUNK_SPACE
+    private val volumePerChunk = MAX_AUDIO_VOLUME / backChunkCount
+    private var spaceBetweenChunks = DEFAULT_SPACE_BETWEEN_CHUNKS
     private var chunkHeight = DEFAULT_CHUNK_HEIGHT
     private var chunkWidth = DEFAULT_CHUNK_WIDTH
 
@@ -77,8 +84,12 @@ class AudioView : View {
         drawFrontCircleChunks(canvas)
     }
 
+    /**
+     * This method updates current audio volume according to
+     * @param volume
+     */
     fun setVolume(volume: Int) {
-        frontChunkCount = (volume / perChunk).toInt()
+        frontChunkCount = (volume / volumePerChunk).toInt()
         invalidate()
     }
 
@@ -88,10 +99,12 @@ class AudioView : View {
                 backChunkCount = getInt(R.styleable.AudioView_chunk_count, backChunkCount)
                 backChunkColor = getColor(R.styleable.AudioView_back_chunk_color, backChunkColor)
                 frontChunkColor = getColor(R.styleable.AudioView_front_chunk_color, frontChunkColor)
-                chunkSpace = getDimension(R.styleable.AudioView_chunk_space, chunkSpace)
+                spaceBetweenChunks =
+                    getDimension(R.styleable.AudioView_space_between_chunks, spaceBetweenChunks)
                 chunkHeight = getDimension(R.styleable.AudioView_chunk_height, chunkHeight)
                 chunkWidth = getDimension(R.styleable.AudioView_chunk_width, chunkWidth)
-//            chunkForm = ChunkForm.from(this.getString(R.styleable.AudioView_chunk_form).toString())
+                circleChunkRadius =
+                    getDimension(R.styleable.AudioView_circle_chunk_radius, circleChunkRadius)
             } finally {
                 recycle()
             }
@@ -99,17 +112,17 @@ class AudioView : View {
     }
 
     private fun drawBackCircleChunks(canvas: Canvas) {
-        var backChunkCenterX = height.toFloat() / 2
-        val backChunkCenterY = height.toFloat() / 2
+        var backChunkCenterX = circleChunkRadius
+        val backChunkCenterY = circleChunkRadius
         for (i in 0 until backChunkCount) {
             canvas.drawCircle(backChunkCenterX, backChunkCenterY, circleChunkRadius, backChunkPaint)
-            backChunkCenterX += chunkSpace + circleChunkRadius * 2
+            backChunkCenterX += spaceBetweenChunks + circleChunkRadius * 2
         }
     }
 
     private fun drawFrontCircleChunks(canvas: Canvas) {
-        var frontChunkCenterX = height.toFloat() / 2
-        val frontChunkCenterY = height.toFloat() / 2
+        var frontChunkCenterX = circleChunkRadius
+        val frontChunkCenterY = circleChunkRadius
         for (i in 0 until frontChunkCount) {
             canvas.drawCircle(
                 frontChunkCenterX,
@@ -117,7 +130,7 @@ class AudioView : View {
                 circleChunkRadius,
                 frontChunkPaint
             )
-            frontChunkCenterX += chunkSpace + circleChunkRadius * 2
+            frontChunkCenterX += spaceBetweenChunks + circleChunkRadius * 2
         }
     }
 
