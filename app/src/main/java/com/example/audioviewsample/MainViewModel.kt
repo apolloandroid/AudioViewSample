@@ -36,10 +36,18 @@ class MainViewModel @Inject constructor() : ViewModel() {
         onDestroy()
     }
 
+    /**
+     * Called when View (Activity or Fragment) is destroyed. Stops microphone checking when.
+     */
     fun onDestroy() {
         if (microphoneChecker.isChecking) microphoneChecker.stopChecking()
     }
 
+    /**
+     * Handles pressing the microphone button.
+     * First need to request permission to record audio.
+     * If received, starts microphone check.
+     */
     fun onTurnMicrophoneButtonClick() = when (isRecordAudioPermissionGranted) {
         true -> {
             when (microphoneState.value) {
@@ -50,11 +58,22 @@ class MainViewModel @Inject constructor() : ViewModel() {
         false -> _requestRecordAudioPermission.value = true
     }
 
+    /**
+     * Handles result of recording audio permission request.
+     */
     fun onRecordAudioPermissionResult(isGranted: Boolean) {
         isRecordAudioPermissionGranted = isGranted
         if (isGranted) onTurnMicrophoneButtonClick()
     }
 
+    /**
+     * Starts microphone checking sets and _microphoneState to MicrophoneState.ON.
+     * In a background running coroutine in a loop while the microphone
+     * is in MicrophoneState.ON state, requests the value of the current microphone level and
+     * updates _microphoneVolume value.
+     * This should be done with a delay, because otherwise the value will be updated too quickly
+     * and it will not be noticeable on the screen.
+     */
     private fun startMicrophoneChecking() {
         _microphoneState.value = MicrophoneState.ON
         viewModelScope.launch {
@@ -62,10 +81,13 @@ class MainViewModel @Inject constructor() : ViewModel() {
             do {
                 _microphoneVolume.postValue(microphoneChecker.getMicrophoneVolume())
                 delay(DELAY_TIME)
-            } while (microphoneChecker.isChecking)
+            } while (_microphoneState.value == MicrophoneState.ON)
         }
     }
 
+    /**
+     *  Stops microphone checking and sets _microphoneState to MicrophoneState.OFF.
+     */
     private fun stopMicrophoneChecking() {
         microphoneChecker.stopChecking()
         _microphoneState.value = MicrophoneState.OFF

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--    The basic set of AudioView custom attributes-->
     <declare-styleable name="AudioView">
+        <!-- Specifies color of background chunks-->
         <attr name="back_chunk_color" format="color" />
+        <!-- Specifies color of front chunks-->
         <attr name="front_chunk_color" format="color" />
-        <attr name="chunk_count" format="integer"/>
-        <attr name="space_between_chunks" format="dimension"/>
+        <!-- Specifies count of chunks-->
+        <attr name="chunk_count" format="integer" />
+        <!-- Specifies the distance between neighboring chunks-->
+        <attr name="space_between_chunks" format="dimension" />
+        <!-- Specifies the radius of chunk if chunk form is circle-->
         <attr name="circle_chunk_radius" format="dimension" />
     </declare-styleable>
 </resources>

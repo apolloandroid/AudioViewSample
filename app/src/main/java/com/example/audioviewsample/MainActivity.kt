@@ -14,8 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel: MainViewModel by viewModels()
     private lateinit var view: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     private val microphonePermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -38,14 +38,14 @@ class MainActivity : AppCompatActivity() {
     private fun setObservers() = with(viewModel) {
         microphoneState.observe(this@MainActivity, {
             setButtonTurnMicrophoneBackground(it)
-            setMicrophoneVolumeVisibility(it)
+            setAudioViewVisibility(it)
         })
 
         requestRecordAudioPermission.observe(this@MainActivity, {
             microphonePermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         })
 
-        microphoneVolume.observe(this@MainActivity, { view.microphoneVolume.setVolume(it) })
+        microphoneVolume.observe(this@MainActivity, { view.audioView.setVolume(it) })
     }
 
     private fun setButtonTurnMicrophoneBackground(microphoneState: MicrophoneState) {
@@ -56,8 +56,8 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this).load(backgroundResourceId).into(view.buttonTurnMicrophone)
     }
 
-    private fun setMicrophoneVolumeVisibility(microphoneState: MicrophoneState) {
-        view.microphoneVolume.visibility =
+    private fun setAudioViewVisibility(microphoneState: MicrophoneState) {
+        view.audioView.visibility =
             if (microphoneState == MicrophoneState.ON) View.VISIBLE else View.GONE
     }
 }

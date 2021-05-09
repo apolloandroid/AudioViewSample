@@ -22,7 +22,7 @@
             app:srcCompat="@drawable/ic_microphone_off" />
 
         <com.example.audioviewsample.AudioView
-            android:id="@+id/microphone_volume"
+            android:id="@+id/audio_view"
             android:layout_width="230dp"
             android:layout_height="20dp"
             android:layout_marginBottom="32dp"
