@@ -4,10 +4,7 @@
         <attr name="back_chunk_color" format="color" />
         <attr name="front_chunk_color" format="color" />
         <attr name="chunk_count" format="integer"/>
-        <attr name="chunk_form" format="string"/>
         <attr name="space_between_chunks" format="dimension"/>
-        <attr name="chunk_height" format="dimension"/>
-        <attr name="chunk_width" format="dimension"/>
         <attr name="circle_chunk_radius" format="dimension" />
     </declare-styleable>
 </resources>

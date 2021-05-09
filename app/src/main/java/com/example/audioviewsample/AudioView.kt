@@ -6,29 +6,26 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import com.example.microphonevolumeviewsample.R
 
 /**
- * This class is designed to render sound on the screen.
- * For example, you can use it to show the operation of a microphone while checking it
- * or other audio display tasks.
+ * This class is designed to render sound level on the screen.
+ * For example, you can use for showing the volume of a microphone while checking it
+ * or for other audio display tasks.
  */
 class AudioView : View {
     /**
      * Default values, that initialize view params if no attributes have been defined.
      */
-    private val DEFAULT_CHUNK_COUNT = 9
     private val DEFAULT_BACK_CHUNK_COLOR = Color.WHITE
     private val DEFAULT_FRONT_CHUNK_COLOR = Color.RED
-    private val DEFAULT_CHUNK_FORM = ChunkForm.CIRCLE
+    private val DEFAULT_CHUNK_COUNT = 9
     private val DEFAULT_SPACE_BETWEEN_CHUNKS = 0f
-    private val DEFAULT_CHUNK_WIDTH = 0f
-    private val DEFAULT_CHUNK_HEIGHT = 0f
     private val DEFAULT_CIRCLE_CHUNK_RADIUS = 8f
 
     /**
      * Values, that initialize back chunks params.
+     * Count of back chunks does not change due to audio level.
      */
     private var backChunkCount = DEFAULT_CHUNK_COUNT
     private var backChunkColor = DEFAULT_BACK_CHUNK_COLOR
@@ -40,6 +37,8 @@ class AudioView : View {
 
     /**
      * Values, that initialize front chunks params.
+     * Count of front chunks change due to audio level and calculated according to
+     * @see setVolume method
      */
     private var frontChunkCount = 0
         set(value) {
@@ -58,11 +57,8 @@ class AudioView : View {
      */
     private val MAX_AUDIO_VOLUME = 11390f
     private var circleChunkRadius = DEFAULT_CIRCLE_CHUNK_RADIUS
-    private var chunkForm = DEFAULT_CHUNK_FORM
     private val volumePerChunk = MAX_AUDIO_VOLUME / backChunkCount
     private var spaceBetweenChunks = DEFAULT_SPACE_BETWEEN_CHUNKS
-    private var chunkHeight = DEFAULT_CHUNK_HEIGHT
-    private var chunkWidth = DEFAULT_CHUNK_WIDTH
 
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -93,6 +89,9 @@ class AudioView : View {
         invalidate()
     }
 
+    /**
+     * Sets declared attributes to this View
+     */
     private fun setAttributes(attrs: AttributeSet) {
         context.theme.obtainStyledAttributes(attrs, R.styleable.AudioView, 0, 0).apply {
             try {
@@ -101,8 +100,6 @@ class AudioView : View {
                 frontChunkColor = getColor(R.styleable.AudioView_front_chunk_color, frontChunkColor)
                 spaceBetweenChunks =
                     getDimension(R.styleable.AudioView_space_between_chunks, spaceBetweenChunks)
-                chunkHeight = getDimension(R.styleable.AudioView_chunk_height, chunkHeight)
-                chunkWidth = getDimension(R.styleable.AudioView_chunk_width, chunkWidth)
                 circleChunkRadius =
                     getDimension(R.styleable.AudioView_circle_chunk_radius, circleChunkRadius)
             } finally {
@@ -111,6 +108,9 @@ class AudioView : View {
         }
     }
 
+    /**
+     * Draws background chunks.
+     */
     private fun drawBackCircleChunks(canvas: Canvas) {
         var backChunkCenterX = circleChunkRadius
         val backChunkCenterY = circleChunkRadius
@@ -120,6 +120,9 @@ class AudioView : View {
         }
     }
 
+    /**
+     * Draws front chunks.
+     */
     private fun drawFrontCircleChunks(canvas: Canvas) {
         var frontChunkCenterX = circleChunkRadius
         val frontChunkCenterY = circleChunkRadius
@@ -131,15 +134,6 @@ class AudioView : View {
                 frontChunkPaint
             )
             frontChunkCenterX += spaceBetweenChunks + circleChunkRadius * 2
-        }
-    }
-
-    enum class ChunkForm(val chunkForm: String?) {
-        CIRCLE("circle"),
-        RECTANGLE("rectangle");
-
-        companion object {
-            fun from(form: String?): ChunkForm = ChunkForm.values().first { it.chunkForm == form }
         }
     }
 }
