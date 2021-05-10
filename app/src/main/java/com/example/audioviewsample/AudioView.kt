@@ -12,6 +12,10 @@ import com.example.microphonevolumeviewsample.R
  * This class is designed to render sound level on the screen.
  * For example, you can use for showing the volume of a microphone while checking it
  * or for other audio display tasks.
+ *
+ * !ATTENTION!
+ * For now, you cannot specify the height and width of this view as "wrap_content".
+ * You need to define a specific value.
  */
 class AudioView : View {
     /**
