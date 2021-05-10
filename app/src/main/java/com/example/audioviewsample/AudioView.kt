@@ -18,7 +18,7 @@ class AudioView : View {
      * Default values, that initialize view params if no attributes have been defined.
      */
     private val DEFAULT_BACK_CHUNK_COLOR = Color.WHITE
-    private val DEFAULT_FRONT_CHUNK_COLOR = Color.RED
+    private val DEFAULT_FRONT_CHUNK_COLOR = resources.getColor(R.color.default_front_chunk_color)
     private val DEFAULT_CHUNK_COUNT = 9
     private val DEFAULT_SPACE_BETWEEN_CHUNKS = 0f
     private val DEFAULT_CIRCLE_CHUNK_RADIUS = 8f
@@ -90,7 +90,7 @@ class AudioView : View {
     }
 
     /**
-     * Sets declared attributes to this View
+     * Sets declared attributes to this View.
      */
     private fun setAttributes(attrs: AttributeSet) {
         context.theme.obtainStyledAttributes(attrs, R.styleable.AudioView, 0, 0).apply {
@@ -112,11 +112,11 @@ class AudioView : View {
      * Draws background chunks.
      */
     private fun drawBackCircleChunks(canvas: Canvas) {
-        var backChunkCenterX = circleChunkRadius
-        val backChunkCenterY = circleChunkRadius
+        var chunkCenterX = circleChunkRadius
+        val chunkCenterY = circleChunkRadius
         for (i in 0 until backChunkCount) {
-            canvas.drawCircle(backChunkCenterX, backChunkCenterY, circleChunkRadius, backChunkPaint)
-            backChunkCenterX += spaceBetweenChunks + circleChunkRadius * 2
+            canvas.drawCircle(chunkCenterX, chunkCenterY, circleChunkRadius, backChunkPaint)
+            chunkCenterX += spaceBetweenChunks + circleChunkRadius * 2
         }
     }
 
@@ -124,16 +124,11 @@ class AudioView : View {
      * Draws front chunks.
      */
     private fun drawFrontCircleChunks(canvas: Canvas) {
-        var frontChunkCenterX = circleChunkRadius
-        val frontChunkCenterY = circleChunkRadius
+        var chunkCenterX = circleChunkRadius
+        val chunkCenterY = circleChunkRadius
         for (i in 0 until frontChunkCount) {
-            canvas.drawCircle(
-                frontChunkCenterX,
-                frontChunkCenterY,
-                circleChunkRadius,
-                frontChunkPaint
-            )
-            frontChunkCenterX += spaceBetweenChunks + circleChunkRadius * 2
+            canvas.drawCircle(chunkCenterX, chunkCenterY, circleChunkRadius, frontChunkPaint)
+            chunkCenterX += spaceBetweenChunks + circleChunkRadius * 2
         }
     }
 }

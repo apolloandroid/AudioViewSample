@@ -17,7 +17,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var view: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
-    private val microphonePermissionLauncher =
+    /**
+     * Launcher of record audio request.
+     */
+    private val recordAudioPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             viewModel.onRecordAudioPermissionResult(it)
         }
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         requestRecordAudioPermission.observe(this@MainActivity, {
-            microphonePermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            recordAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         })
 
         microphoneVolume.observe(this@MainActivity, { view.audioView.setVolume(it) })

@@ -43,7 +43,11 @@ class MicrophoneChecker {
      * Returns current microphone volume.
      */
     fun getMicrophoneVolume(): Int {
-        return if (this::mediaRecorder.isInitialized) mediaRecorder.maxAmplitude else 0
+        return try {
+            mediaRecorder.maxAmplitude
+        } catch (e: Exception) {
+            0
+        }
     }
 
     /**
