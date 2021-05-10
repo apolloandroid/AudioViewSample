@@ -7,6 +7,10 @@ This view can be used for device microphone checking or other representing sound
 **Using**
 
 in XML
+
+!!!ATTENTION!!!
+For now, you cannot specify the height and width of this view as "wrap_content". You need to define a specific value.
+
 ```
 <com.example.audioviewsample.AudioView
             android:id="@+id/audio_view"
@@ -17,8 +21,7 @@ in XML
             app:chunk_count="8"
             app:space_between_chunks="10dp"
             app:circle_chunk_radius="10dp"/>
-            
- 
+```
 In Activity/Fragment
 
 You can execute this code in a timer, for example, every 100 milliseconds.
@@ -26,9 +29,10 @@ You can execute this code in a timer, for example, every 100 milliseconds.
 val audioView: AudioView = findViewById(R.id.audioView)
  
 // in the timer redraw view
+
 audioView.setVolume(currentVolume)   
  
  
-Compatibility
+**Compatibility**
 
 Minimum Android SDK: AudioRecordView requires a minimum API level of 16.
