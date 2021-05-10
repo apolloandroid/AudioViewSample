@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="default_front_chunk_color">#3ED41A</color>
+    <color name="default_back_chunk_color">#80FFFFFF</color>
 </resources>
