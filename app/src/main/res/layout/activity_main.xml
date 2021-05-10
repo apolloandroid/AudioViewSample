@@ -26,14 +26,16 @@
             android:layout_width="230dp"
             android:layout_height="20dp"
             android:layout_marginBottom="32dp"
+            app:front_chunk_color="@color/default_front_chunk_color"
+            app:back_chunk_color="@color/default_back_chunk_color"
             app:chunk_count="8"
+            app:space_between_chunks="10dp"
             app:circle_chunk_radius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/button_turn_microphone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:space_between_chunks="10dp" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>

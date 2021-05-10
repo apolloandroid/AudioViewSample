@@ -21,7 +21,7 @@ class AudioView : View {
     /**
      * Default values, that initialize view params if no attributes have been defined.
      */
-    private val DEFAULT_BACK_CHUNK_COLOR = Color.WHITE
+    private val DEFAULT_BACK_CHUNK_COLOR = resources.getColor(R.color.default_back_chunk_color)
     private val DEFAULT_FRONT_CHUNK_COLOR = resources.getColor(R.color.default_front_chunk_color)
     private val DEFAULT_CHUNK_COUNT = 9
     private val DEFAULT_SPACE_BETWEEN_CHUNKS = 0f
