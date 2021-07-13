@@ -10,7 +10,7 @@ in XML
 
 ```
 <com.example.audioviewsample.AudioView
-            android:id="@+id/audio_view"
+            android:id="@+id/audioView"
             android:layout_width="230dp"
             android:layout_height="20dp"
             app:front_chunk_color="@color/default_front_chunk_color"
