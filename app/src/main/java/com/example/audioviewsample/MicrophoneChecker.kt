@@ -1,11 +1,12 @@
 package com.example.audioviewsample
 
 import android.media.MediaRecorder
+import javax.inject.Inject
 
 /**
  * Class for recording voice from microphone and returning its volume.
  */
-class MicrophoneChecker {
+class MicrophoneChecker @Inject constructor() {
     /**
      * Default constants.
      */
@@ -14,7 +15,7 @@ class MicrophoneChecker {
     private val OUTPUT_FILE_PATH = "/dev/null"
 
     /**
-     * @see isChecking shows is MicrophoneChecker working or not.
+     * [isChecking] shows is [MicrophoneChecker] working or not.
      */
     private var _isChecking = false
     val isChecking: Boolean
@@ -23,7 +24,7 @@ class MicrophoneChecker {
     private lateinit var mediaRecorder: MediaRecorder
 
     /**
-     * Launches MicrophoneChecker.
+     * Launches [MicrophoneChecker].
      */
     fun startChecking() {
         _isChecking = true
@@ -32,7 +33,7 @@ class MicrophoneChecker {
     }
 
     /**
-     * Stops MicrophoneChecker.
+     * Stops [MicrophoneChecker].
      */
     fun stopChecking() {
         _isChecking = false
@@ -51,7 +52,7 @@ class MicrophoneChecker {
     }
 
     /**
-     * Prepares MediaRecorder to work.
+     * Prepares [MediaRecorder] to work.
      */
     private fun prepareToCheck() {
         mediaRecorder = MediaRecorder()

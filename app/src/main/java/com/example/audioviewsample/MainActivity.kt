@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Glide
 import com.example.microphonevolumeviewsample.R
 import com.example.microphonevolumeviewsample.databinding.ActivityMainBinding
@@ -14,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var view: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
     /**
@@ -27,9 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        view = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        view.viewModel = viewModel
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewModel = viewModel
         setObservers()
     }
 
@@ -39,28 +39,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setObservers() = with(viewModel) {
-        microphoneState.observe(this@MainActivity, {
+        micState.asLiveData().observe(this@MainActivity, {
             setButtonTurnMicrophoneBackground(it)
             setAudioViewVisibility(it)
         })
 
-        requestRecordAudioPermission.observe(this@MainActivity, {
-            recordAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        requestRecordAudioPermission.asLiveData().observe(this@MainActivity, {
+            if (it) recordAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         })
 
-        microphoneVolume.observe(this@MainActivity, { view.audioView.setVolume(it) })
+        micVolume.asLiveData().observe(this@MainActivity, { binding.audioView.setVolume(it) })
     }
 
-    private fun setButtonTurnMicrophoneBackground(microphoneState: MicrophoneState) {
-        val backgroundResourceId = when (microphoneState) {
+    private fun setButtonTurnMicrophoneBackground(micState: MicrophoneState) {
+        val backgroundResourceId = when (micState) {
             MicrophoneState.ON -> R.drawable.ic_microphone_on
             MicrophoneState.OFF -> R.drawable.ic_microphone_off
         }
-        Glide.with(this).load(backgroundResourceId).into(view.buttonTurnMicrophone)
+        Glide.with(this).load(backgroundResourceId).into(binding.btnTurnMicrophone)
     }
 
-    private fun setAudioViewVisibility(microphoneState: MicrophoneState) {
-        view.audioView.visibility =
-            if (microphoneState == MicrophoneState.ON) View.VISIBLE else View.GONE
+    private fun setAudioViewVisibility(micState: MicrophoneState) {
+        binding.audioView.visibility =
+            if (micState == MicrophoneState.ON) View.VISIBLE else View.GONE
     }
 }
