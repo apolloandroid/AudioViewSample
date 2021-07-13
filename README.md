@@ -1,5 +1,5 @@
 # AudioViewSample
-
+![](video_20210510_232647.gif)
 Sample project of using AudioView. 
 
 This view can be used for device microphone checking or other representing sound level on the screen task.
