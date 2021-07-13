@@ -2,7 +2,6 @@ package com.example.audioviewsample
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -82,6 +81,27 @@ class AudioView : View {
         super.onDraw(canvas)
         drawBackCircleChunks(canvas)
         drawFrontCircleChunks(canvas)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val desiredWidth = (2 * circleChunkRadius * backChunkCount + spaceBetweenChunks * (backChunkCount - 1)).toInt()
+        val desiredHeight = (2 * circleChunkRadius).toInt()
+
+        setMeasuredDimension(
+            measureDimension(desiredWidth, widthMeasureSpec),
+            measureDimension(desiredHeight, heightMeasureSpec)
+        )
+    }
+
+    private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
+        val specMode = MeasureSpec.getMode(measureSpec)
+        val specSize = MeasureSpec.getSize(measureSpec)
+        return when (specMode) {
+            MeasureSpec.EXACTLY -> specSize
+            MeasureSpec.AT_MOST -> desiredSize.coerceAtMost(specSize)
+            else -> desiredSize
+        }
     }
 
     /**
