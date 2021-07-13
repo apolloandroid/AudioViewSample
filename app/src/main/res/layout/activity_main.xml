@@ -10,7 +10,7 @@
         tools:context="com.example.audioviewsample.MainActivity">
 
         <ImageButton
-            android:id="@+id/button_turn_microphone"
+            android:id="@+id/btnTurnMicrophone"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="300dp"
@@ -22,20 +22,20 @@
             app:srcCompat="@drawable/ic_microphone_off" />
 
         <com.example.audioviewsample.AudioView
-            android:id="@+id/audio_view"
-            android:layout_width="230dp"
-            android:layout_height="20dp"
+            android:id="@+id/audioView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            app:front_chunk_color="@color/default_front_chunk_color"
             app:back_chunk_color="@color/default_back_chunk_color"
             app:chunk_count="8"
-            app:space_between_chunks="10dp"
             app:circle_chunk_radius="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_turn_microphone"
+            app:front_chunk_color="@color/default_front_chunk_color"
+            app:layout_constraintBottom_toTopOf="@+id/btnTurnMicrophone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:space_between_chunks="10dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
