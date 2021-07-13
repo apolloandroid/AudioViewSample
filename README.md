@@ -8,9 +8,6 @@ This view can be used for device microphone checking or other representing sound
 
 in XML
 
-!!!ATTENTION!!!
-For now, you cannot specify the height and width of this view as "wrap_content". You need to define a specific value.
-
 ```
 <com.example.audioviewsample.AudioView
             android:id="@+id/audio_view"
